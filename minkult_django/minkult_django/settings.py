@@ -76,6 +76,8 @@ WSGI_APPLICATION = 'minkult_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
+# realisation of sqlite/postgres switch in container
 if str(os.environ.get("POSTGRES", "0")) == "1":
     DATABASES = {
         'default': {

@@ -7,7 +7,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'minkult_django.settings')
 django.setup()
 
 from db_api.models import *
-from django.db import transaction
 
 composers = {}
 authors = {}
@@ -19,6 +18,8 @@ songs_to_create_m2m = []  # value = ([authors], [composers])
 
 
 def proceed_many2many_cell(cell, field_class, field_dict):
+    """Process cells with many items in it and returns array of them"""
+
     if cell:
         cell_members = [x.strip() for x in re.split(";|,", cell)]
         for member in cell_members:
@@ -41,15 +42,10 @@ with open('data/data-1-structure-1.csv', encoding="utf-8") as csvfile:
         if row[6] and row[6] not in themes.keys():
             themes[row[6]] = Theme(name=row[6])
 
-        songs_to_create.append((
-            row[0],
-            row[2],
-            row[4],
-            row[6],
-            row[7]
-        ))
+        songs_to_create.append((row[0], row[2], row[4], row[6], row[7]))
         songs_to_create_m2m.append((current_composers, current_authors))
 
+# create a bunch of foreign key items and commit after creation to reduce db load
 Composer.objects.bulk_create(composers.values())
 TextAuthor.objects.bulk_create(authors.values())
 Genre.objects.bulk_create(genres.values())
@@ -64,12 +60,13 @@ songs_to_create = [
         keywords=s[4]
     )
     for s in songs_to_create]
+Song.objects.bulk_create(songs_to_create)
 
 m2m_relation_composers = []
 m2m_relation_authors = []
-Song.objects.bulk_create(songs_to_create)
 
 for song, song_m2m in zip(songs_to_create, songs_to_create_m2m):
+    # manually assign many_to_many relation ids
     for composer in song_m2m[0]:
         m2m_relation_composers.append(Song.composer.through(song_id=song.pk, composer_id=composers[composer].pk))
     for author in song_m2m[1]:

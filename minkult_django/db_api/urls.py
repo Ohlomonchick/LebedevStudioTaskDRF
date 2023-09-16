@@ -4,7 +4,7 @@ from db_api import views
 
 router = routers.SimpleRouter()
 
-
+# API handlers
 router.register(r'song', views.SongViewSet, basename='song')
 router.register(r'composer', views.ComposerViewSet, basename='composer')
 router.register(r'genre', views.GenreViewSet, basename='genre')

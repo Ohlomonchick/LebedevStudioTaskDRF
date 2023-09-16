@@ -25,6 +25,7 @@ class Song(models.Model):
         related_name="song_composer",
     )
     creation_year = models.fields.CharField(null=True, max_length=255)
+    # song
     text_author = models.ManyToManyField(
         TextAuthor,
         related_name="song_text_author",

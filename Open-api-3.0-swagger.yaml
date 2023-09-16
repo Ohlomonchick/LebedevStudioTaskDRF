@@ -1,0 +1,654 @@
+openapi: 3.0.0
+info:
+  title: Minkult Songs API
+  description: Server contains search and parameters filtering.
+  contact:
+    email: daproskurin@edu.hse.ru
+  license:
+    name: BSD License
+  version: v1
+security:
+  - Basic: []
+paths:
+  /composer/:
+    get:
+      operationId: composer_list
+      description: ''
+      parameters:
+        - name: search
+          in: query
+          description: Search by name field and keywords field.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: Search by name field.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                required:
+                  - count
+                  - results
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Composer'
+      tags:
+        - composer
+    post:
+      operationId: composer_create
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Composer'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Composer'
+      tags:
+        - composer
+    parameters: []
+  /composer/{id}/:
+    get:
+      operationId: composer_read
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Composer'
+      tags:
+        - composer
+    put:
+      operationId: composer_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Composer'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Composer'
+      tags:
+        - composer
+    patch:
+      operationId: composer_partial_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Composer'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Composer'
+      tags:
+        - composer
+    delete:
+      operationId: composer_delete
+      description: ''
+      responses:
+        '204':
+          description: ''
+      tags:
+        - composer
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this composer.
+        required: true
+        schema:
+          type: integer
+  /genre/:
+    get:
+      operationId: genre_list
+      description: ''
+      parameters:
+        - name: search
+          in: query
+          description: Search by name field.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                required:
+                  - count
+                  - results
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Genre'
+      tags:
+        - genre
+    post:
+      operationId: genre_create
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Genre'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+      tags:
+        - genre
+    parameters: []
+  /genre/{genre_id}/:
+    get:
+      operationId: genre_read
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+      tags:
+        - genre
+    put:
+      operationId: genre_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Genre'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+      tags:
+        - genre
+    patch:
+      operationId: genre_partial_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Genre'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Genre'
+      tags:
+        - genre
+    delete:
+      operationId: genre_delete
+      description: ''
+      responses:
+        '204':
+          description: ''
+      tags:
+        - genre
+    parameters:
+      - name: genre_id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: '[^/]+'
+  /song/:
+    get:
+      operationId: song_list
+      description: You can filter song records by further query parameters.
+      parameters:
+        - name: name
+          in: query
+          description: name
+          required: false
+          schema:
+            type: string
+        - name: creation_year
+          in: query
+          description: creation_year
+          required: false
+          schema:
+            type: string
+        - name: genre
+          in: query
+          description: genre
+          required: false
+          schema:
+            type: string
+        - name: theme
+          in: query
+          description: theme
+          required: false
+          schema:
+            type: string
+        - name: composer
+          in: query
+          description: composer
+          required: false
+          schema:
+            type: string
+        - name: text_author
+          in: query
+          description: text_author
+          required: false
+          schema:
+            type: string
+        - name: search
+          in: query
+          description: Search by name field and keywords field.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                required:
+                  - count
+                  - results
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Song'
+      tags:
+        - song
+    post:
+      operationId: song_create
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Song'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+      tags:
+        - song
+    parameters: []
+  /song/{id}/:
+    get:
+      operationId: song_read
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+      tags:
+        - song
+    put:
+      operationId: song_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Song'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+      tags:
+        - song
+    patch:
+      operationId: song_partial_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/Song'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Song'
+      tags:
+        - song
+    delete:
+      operationId: song_delete
+      description: ''
+      responses:
+        '204':
+          description: ''
+      tags:
+        - song
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this song.
+        required: true
+        schema:
+          type: integer
+  /text-author/:
+    get:
+      operationId: text-author_list
+      description: ''
+      parameters:
+        - name: search
+          in: query
+          description: A search term.
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          schema:
+            type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                required:
+                  - count
+                  - results
+                type: object
+                properties:
+                  count:
+                    type: integer
+                  next:
+                    type: string
+                    format: uri
+                    nullable: true
+                  previous:
+                    type: string
+                    format: uri
+                    nullable: true
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TextAuthor'
+      tags:
+        - text-author
+    post:
+      operationId: text-author_create
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/TextAuthor'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextAuthor'
+      tags:
+        - text-author
+    parameters: []
+  /text-author/{id}/:
+    get:
+      operationId: text-author_read
+      description: ''
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextAuthor'
+      tags:
+        - text-author
+    put:
+      operationId: text-author_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/TextAuthor'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextAuthor'
+      tags:
+        - text-author
+    patch:
+      operationId: text-author_partial_update
+      description: ''
+      requestBody:
+        $ref: '#/components/requestBodies/TextAuthor'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TextAuthor'
+      tags:
+        - text-author
+    delete:
+      operationId: text-author_delete
+      description: ''
+      responses:
+        '204':
+          description: ''
+      tags:
+        - text-author
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this text author.
+        required: true
+        schema:
+          type: integer
+servers:
+  - url: http://127.0.0.1:8000/api/v1
+components:
+  requestBodies:
+    Genre:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Genre'
+      required: true
+    Composer:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Composer'
+      required: true
+    Song:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Song'
+      required: true
+    TextAuthor:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TextAuthor'
+      required: true
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+  schemas:
+    Composer:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        name:
+          title: Name
+          type: string
+          maxLength: 255
+          minLength: 1
+    Genre:
+      required:
+        - name
+        - genre_id
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        name:
+          title: Name
+          type: string
+          maxLength: 255
+          minLength: 1
+        genre_id:
+          title: Genre id
+          type: string
+          maxLength: 255
+          minLength: 1
+    TextAuthor:
+      required:
+        - name
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        name:
+          title: Name
+          type: string
+          maxLength: 255
+          minLength: 1
+    Song:
+      required:
+        - name
+        - composer
+        - text_author
+      type: object
+      properties:
+        id:
+          title: ID
+          type: integer
+          readOnly: true
+        name:
+          title: Name
+          type: string
+          minLength: 1
+        composer:
+          type: array
+          items:
+            $ref: '#/components/schemas/Composer'
+        creation_year:
+          title: Creation year
+          type: string
+          maxLength: 255
+          minLength: 1
+          nullable: true
+        text_author:
+          type: array
+          items:
+            $ref: '#/components/schemas/TextAuthor'
+        genre:
+          title: Genre
+          type: integer
+          nullable: true
+        theme:
+          title: Theme
+          type: integer
+          nullable: true
+        keywords:
+          title: Keywords
+          type: string
+          minLength: 1
