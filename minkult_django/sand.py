@@ -7,7 +7,7 @@ import csv
 #
 # from db_api.models import *
 
-with open('../data/data-1-structure-1.csv', encoding="utf-8") as csvfile:
+with open('data/data-1-structure-1.csv', encoding="utf-8") as csvfile:
     spamreader = csv.reader(csvfile, delimiter=',')
     headers = next(spamreader)
     print(headers)

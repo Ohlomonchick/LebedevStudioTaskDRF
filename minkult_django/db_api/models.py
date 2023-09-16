@@ -11,7 +11,7 @@ class TextAuthor(models.Model):
 
 class Genre(models.Model):
     name = models.CharField(max_length=255)
-    genre_id = models.fields.CharField()
+    genre_id = models.fields.CharField(max_length=255)
 
 
 class Theme(models.Model):
@@ -24,7 +24,7 @@ class Song(models.Model):
         Composer,
         related_name="song_composer",
     )
-    creation_year = models.fields.CharField(null=True)
+    creation_year = models.fields.CharField(null=True, max_length=255)
     text_author = models.ManyToManyField(
         TextAuthor,
         related_name="song_text_author",

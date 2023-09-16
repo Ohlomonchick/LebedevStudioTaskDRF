@@ -1,0 +1,628 @@
+swagger: '2.0'
+info:
+  title: Snippets API
+  description: Test description
+  termsOfService: https://www.google.com/policies/terms/
+  contact:
+    email: contact@snippets.local
+  license:
+    name: BSD License
+  version: v1
+host: 127.0.0.1:8000
+schemes:
+- http
+basePath: /api/v1
+consumes:
+- application/json
+produces:
+- application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+- Basic: []
+paths:
+  /composer/:
+    get:
+      operationId: composer_list
+      description: ''
+      parameters:
+      - name: search
+        in: query
+        description: A search term.
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: offset
+        in: query
+        description: The initial index from which to return the results.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Composer'
+      tags:
+      - composer
+    post:
+      operationId: composer_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Composer'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Composer'
+      tags:
+      - composer
+    parameters: []
+  /composer/{id}/:
+    get:
+      operationId: composer_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Composer'
+      tags:
+      - composer
+    put:
+      operationId: composer_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Composer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Composer'
+      tags:
+      - composer
+    patch:
+      operationId: composer_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Composer'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Composer'
+      tags:
+      - composer
+    delete:
+      operationId: composer_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - composer
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this composer.
+      required: true
+      type: integer
+  /genre/:
+    get:
+      operationId: genre_list
+      description: ''
+      parameters:
+      - name: search
+        in: query
+        description: A search term.
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: offset
+        in: query
+        description: The initial index from which to return the results.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Genre'
+      tags:
+      - genre
+    post:
+      operationId: genre_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Genre'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Genre'
+      tags:
+      - genre
+    parameters: []
+  /genre/{genre_id}/:
+    get:
+      operationId: genre_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Genre'
+      tags:
+      - genre
+    put:
+      operationId: genre_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Genre'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Genre'
+      tags:
+      - genre
+    patch:
+      operationId: genre_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Genre'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Genre'
+      tags:
+      - genre
+    delete:
+      operationId: genre_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - genre
+    parameters:
+    - name: genre_id
+      in: path
+      required: true
+      type: string
+      pattern: '[^/]+'
+  /song/:
+    get:
+      operationId: song_list
+      description: ''
+      parameters:
+      - name: name
+        in: query
+        description: name
+        required: false
+        type: string
+      - name: creation_year
+        in: query
+        description: creation_year
+        required: false
+        type: string
+      - name: genre
+        in: query
+        description: genre
+        required: false
+        type: string
+      - name: theme
+        in: query
+        description: theme
+        required: false
+        type: string
+      - name: composer
+        in: query
+        description: composer
+        required: false
+        type: string
+      - name: text_author
+        in: query
+        description: text_author
+        required: false
+        type: string
+      - name: search
+        in: query
+        description: A search term.
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: offset
+        in: query
+        description: The initial index from which to return the results.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Song'
+      tags:
+      - song
+    post:
+      operationId: song_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Song'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Song'
+      tags:
+      - song
+    parameters: []
+  /song/{id}/:
+    get:
+      operationId: song_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Song'
+      tags:
+      - song
+    put:
+      operationId: song_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Song'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Song'
+      tags:
+      - song
+    patch:
+      operationId: song_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/Song'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Song'
+      tags:
+      - song
+    delete:
+      operationId: song_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - song
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this song.
+      required: true
+      type: integer
+  /text-author/:
+    get:
+      operationId: text-author_list
+      description: ''
+      parameters:
+      - name: search
+        in: query
+        description: A search term.
+        required: false
+        type: string
+      - name: limit
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: offset
+        in: query
+        description: The initial index from which to return the results.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+            - count
+            - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/TextAuthor'
+      tags:
+      - text-author
+    post:
+      operationId: text-author_create
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TextAuthor'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TextAuthor'
+      tags:
+      - text-author
+    parameters: []
+  /text-author/{id}/:
+    get:
+      operationId: text-author_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/TextAuthor'
+      tags:
+      - text-author
+    put:
+      operationId: text-author_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TextAuthor'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/TextAuthor'
+      tags:
+      - text-author
+    patch:
+      operationId: text-author_partial_update
+      description: ''
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          $ref: '#/definitions/TextAuthor'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/TextAuthor'
+      tags:
+      - text-author
+    delete:
+      operationId: text-author_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+      - text-author
+    parameters:
+    - name: id
+      in: path
+      description: A unique integer value identifying this text author.
+      required: true
+      type: integer
+definitions:
+  Composer:
+    required:
+    - name
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        maxLength: 255
+        minLength: 1
+  Genre:
+    required:
+    - name
+    - genre_id
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        maxLength: 255
+        minLength: 1
+      genre_id:
+        title: Genre id
+        type: string
+        maxLength: 255
+        minLength: 1
+  TextAuthor:
+    required:
+    - name
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        maxLength: 255
+        minLength: 1
+  Song:
+    required:
+    - name
+    - composer
+    - text_author
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        minLength: 1
+      composer:
+        type: array
+        items:
+          $ref: '#/definitions/Composer'
+      creation_year:
+        title: Creation year
+        type: string
+        maxLength: 255
+        minLength: 1
+        x-nullable: true
+      text_author:
+        type: array
+        items:
+          $ref: '#/definitions/TextAuthor'
+      genre:
+        title: Genre
+        type: integer
+        x-nullable: true
+      theme:
+        title: Theme
+        type: integer
+        x-nullable: true
+      keywords:
+        title: Keywords
+        type: string
+        minLength: 1
